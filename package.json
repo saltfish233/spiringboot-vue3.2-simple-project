@@ -2,22 +2,28 @@
   "name": "vue3.2",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview --port 4173",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "prepare": "husky install"
+    "dev": "vite",
+    "prepare": "husky install",
+    "preview": "vite preview --port 4173"
   },
   "dependencies": {
+    "axios": "^0.27.2",
+    "core-js": "^3.8.3",
     "element-plus": "^2.2.9",
+    "sass": "^1.53.0",
     "vue": "^3.2.37",
-    "vue-router": "^4.1.2"
+    "vue-router": "^4.1.2",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
     "@rushstack/eslint-patch": "^1.1.0",
     "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/eslint-config-prettier": "^7.0.0",
     "cz-customizable": "^6.3.0",
     "eslint": "^8.5.0",
