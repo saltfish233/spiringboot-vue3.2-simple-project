@@ -1,32 +1,82 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
 
 const form = reactive({
   username: '',
   password: ''
 })
+
+const formRef = ref(null)
+
+const rules = reactive({
+  username: [
+    {
+      required: true,
+      message: 'Your username',
+      trigger: 'blur'
+    }
+  ],
+  password: [
+    {
+      required: true,
+      message: 'Your password',
+      trigger: 'blur'
+    }
+  ]
+})
+
+const handleLogin = async (formEl) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      store.dispatch('app/login', form)
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
+
+const passwordRef = ref('password')
+
+const changeType = () => {
+  passwordRef.value === 'password'
+    ? (passwordRef.value = 'text')
+    : (passwordRef.value = 'password')
+}
 </script>
 
 <template>
   <div class="login-container">
-    <el-form :model="form" ref="formRef" class="login-form">
+    <el-form :model="form" ref="formRef" class="login-form" :rules="rules">
       <div class="title-container">
         <h3 class="title">用户登录</h3>
       </div>
 
-      <el-form-item>
+      <el-form-item prop="username">
         <el-icon :size="20" class="svg-container">
           <i-bxs-user />
         </el-icon>
         <el-input v-model="form.username"></el-input>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="password">
         <el-icon :size="20" class="svg-container">
           <i-bxs-lock />
         </el-icon>
-        <el-input v-model="form.password"></el-input>
+        <el-input v-model="form.password" :type="passwordRef"></el-input>
+        <el-icon :size="20" @click="changeType">
+          <i-akar-icons-eye-closed v-if="passwordRef === 'password'" />
+          <i-akar-icons-eye-open v-else-if="passwordRef === 'text'" />
+        </el-icon>
       </el-form-item>
-      <el-button type="primary" class="login-button">Login</el-button>
+      <el-button
+        type="primary"
+        class="login-button"
+        @click="handleLogin(formRef)"
+        >Login</el-button
+      >
     </el-form>
   </div>
 </template>
